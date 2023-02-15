@@ -38,35 +38,87 @@ int main () {
 }
 
 bool isValidMove (int x1, int x2, int y1, int y2, int board[8][8]) {
+	int xcheck = x1;
+	int ycheck = y1;
+	int piecesInWay = 0;
 	if (board[x1][x2] == 0) {
 		return false;
-	} else if (board[x1][x2] == 1) { 
+	} else if (board[x1][y2] == 1) { // king
 		if (abs(x1 - x2) <= 1 && abs(y1-y2) <= 1) {
 			return true;
 		}
-		// king
-	} else if (board[x1][x2] == 2) { 
+	} else if (board[x1][y2] == 2) { 
 		// queen
-	} else if (board[x1][x2] == 3) { 
-		// bishop
-	} else if (board[x1][x2] == 4) { 
-		// knight
-	} else if (board[x1][x2] == 5) { 
-		// Rook
-	} else if (board[x1][x2] == 6) { // Pawn
-		if (y1 - y2 == 1 && x1 == x2) { // forward one
-			if (board[x1][y2] == 0) {
+	} else if (board[x1][y2] == 3) {  // bishop
+		while (true) {
+			xcheck += (x1 > x2)? -1 : 1;
+			ycheck += (y1 > y2)? -1 : 1;
+		 	if (xcheck < 0 || ycheck < 0 || xcheck > 7 || ycheck > 7) {
+				break;
+			}
+			if (board[xcheck][ycheck] != 0) {
+				piecesInWay += 1;
+			} 
+			if (piecesInWay == 2) {
+				break;
+			}
+			if (xcheck == x2 && ycheck == y2) {
 				return true;
 			}
-		} else if (y1 - y2 == 2 && x1 == x2) { // forward two
-			if (board[x1][y2] == 0 && board[x1][y2+1] == 0) {
+		}
+	} else if (board[x1][x2] == 4) { // knight
+		if (abs(x1 - x2) == 1) {
+			if (abs(y2 - y1) == 2) {
 				return true;
 			}
-		} else if (abs(x1 - x2) == 1 && y1-y2 == 1) { // capture left or right
+		} else if (abs(x1 - x2) == 2) {
+			if (abs(y2 - y1) == 1) {
+				return true;
+			}
+		}
+	} else if (board[x1][y2] == 5) { // Rook
+		while (true) {
+			if (y1 == y2) {
+				xcheck += (x1 > x2)? -1 : 1;
+			} else if (x1 == x2) {
+				ycheck += (y1 > y2)? -1 : 1;
+			} else {
+				return false;
+			}
+			
+		 	if (xcheck < 0 || ycheck < 0 || xcheck > 7 || ycheck > 7) {
+				break;
+			}
+			if (board[xcheck][ycheck] != 0) {
+				piecesInWay += 1;
+			} 
+			if (piecesInWay == 2) {
+				break;
+			}
+			if (xcheck == x2 && ycheck == y2) {
+				return true;
+			}
+		}
+	} else if (board[x1][y2] == 6) { // Pawn
+		//printf("Pawn Selected\n");
+		//printf("Moving in column %d \n", y1);
+		//printf("y1-y2=%d\n", x1-x2);
+		if (x1 - x2 == 1 && y1 == y2) { // forward one
+			printf("Detected forward move by 1\n");
+			if (board[x2][y2] == 0) {
+				return true;
+			}
+		} else if (x1 - x2 == 2 && y1 == y2) { // forward two
+//			printf("Detected forward move by 2\n");
+			if (board[x2][y2] == 0 && board[x2+1][y2] == 0 && x1 == 6) {
+				return true;
+			}
+		} else if (abs(y1 - y2) == 1 && x1-x2 == 1) { // capture left or right
+			//printf("Detected Capture\n");
 			if (board[x2][y2] != 0) {
 				return true;
 			}
 		}
-		return false;
 	}
+	return false;
 }
