@@ -211,12 +211,12 @@ bool isValidMove (char* input, int board[8][8]) {
 				}
 			} else if (start_x - end_x == 2 && start_y == end_y) { // forward two
 	//			printf("Detected forward move by 2\n");
-				if (board[end_x][end_y] == 0 && board[x2+1][y2] == 0 && x1 == 6) {
+				if (board[end_x][end_y] == 0 && board[end_x+1][end_y] == 0 && start_x == 6) {
 					return true;
 				}
 			} else if (abs(start_y - end_y) == 1 && start_x-end_x == 1) { // capture left or right
 				//printf("Detected Capture\n");
-				if (board[x2][y2] != 0) {
+				if (board[end_x][end_y] != 0) {
 					return true;
 				}
 			}
