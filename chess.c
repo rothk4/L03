@@ -2,10 +2,68 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-bool isValidMove (int x1, int x2, int y1, int y2, int board[8][8]) ;
+// ♔ ♕ ♖ ♗ ♘ ♙
 
-void showBoard(int board[8][8]) {
-	printf("Added on another branch...\n");
+/* ┌ └ ┐ ┘
+
+├ ┤ ┬ ┴
+ 
+─ │ ┼
+ 
+ might need these...
+ 
+ ╟ ╢ ╧ ╤
+ 
+*/
+
+
+
+void showBoard (int board[8][8]) {
+	printf("\n\n  01234567\n");
+	printf("\n\n╔════════╗\n");
+	for (int i = 0; i < 8; i++) {
+		printf("%d ", i);
+		printf("║"); 
+		bool flag = true;
+		for (int j = 0; j < 8; j++) {
+			if (!flag) {
+				printf("│"); 
+			}
+			flag = false;
+//			printf(""); 
+			switch (board[i][j]) {
+				case 0: 
+					if ((i + j) % 2 == 0) {
+						printf(" ");
+					} else {
+						printf("▒");
+					}
+					break;
+				case 1:
+					printf("♔");
+					break;
+				case 2: 
+					printf("♕");
+					break;
+				case 3: 
+					printf("♗");
+					break;
+				case 4: 
+					printf("♘");
+					break;
+				case 5: 
+					printf("♖");
+					break;
+				case 6: 
+					printf("♙");
+			}
+		}
+		printf("║\n") ;
+		if (i < 7) {
+			printf("├─┼─┼─┼─┼─┼─┼─┼─┤\n");
+		}
+	}
+	printf("╚════════╝\n");
 }
 
 //bool memberOf (int *ValidMoves[2], int x, int y) ; 
@@ -117,14 +175,14 @@ int main () {
 	printf("Welcome to Terminal Chess!\n");
 	printf("Initializing Board...\n")	;
 	int board [8][8] = { {5, 4, 3, 2, 1, 3, 4, 5}
-				             , {6, 6, 6, 6, 6, 6, 6, 6}
-				 	           , {0, 0, 0, 0, 0, 0, 0, 0}
-					           , {0, 0, 0, 0, 0, 0, 0, 0}
-				             , {0, 0, 0, 0, 0, 0, 0, 0} 
-				             , {0, 0, 0, 0, 0, 0, 0, 0}
-				             , {6, 6, 6, 6, 6, 6, 6, 6}
-				             , {5, 4, 3, 2, 1, 3, 4, 5}
-				             } ;
+				       , {6, 6, 6, 6, 6, 6, 6, 6}
+				 	   , {0, 0, 0, 0, 0, 0, 0, 0}
+					   , {0, 0, 0, 0, 0, 0, 0, 0}
+				       , {0, 0, 0, 0, 0, 0, 0, 0} 
+				       , {0, 0, 0, 0, 0, 0, 0, 0}
+				       , {6, 6, 6, 6, 6, 6, 6, 6}
+				       , {5, 4, 3, 2, 1, 3, 4, 5}
+				       } ;
   char buf[100];
   bool whitesMove = true;
 	printf("Board Initialized!\n") ;
